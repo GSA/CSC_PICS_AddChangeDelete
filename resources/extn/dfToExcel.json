@@ -1,0 +1,15 @@
+  {
+  "source": {
+    "date_coercion": false,
+    "type": "memory"
+  },
+  "destination": {
+    "type" : "excel",
+    "file": "${fileName}",
+    "sheet": "${operation}",
+    "mode" : "a",
+    "header":false,
+	"date_format": "mm-dd-yyyy",
+    "datetime_format": "mm-dd-yyyy hh:mm:ss"
+  }
+  }

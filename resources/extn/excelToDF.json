@@ -1,0 +1,15 @@
+  {
+  "source": {
+    "type" : "excel",
+    "file": "${fileName}",
+    "sheet": "Vendor_data",
+    "header":true,
+    "mode" : "a",
+	"date_format": "mm-dd-yyyy",
+    "datetime_format": "mm-dd-yyyy hh:mm:ss"
+  },
+    "destination": {
+    "date_coercion": false,
+    "type": "memory"
+  }
+  }

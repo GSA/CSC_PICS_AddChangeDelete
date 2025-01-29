@@ -1,0 +1,9 @@
+{
+    "system": "GECO",
+    "process":true,
+	"sourceFolder": "/apps/pics/data_xfer/archive",
+	"targetFolder": "C:/Users/ShristiAmatya/Documents/GitHub/PICS_Add-Change/PICSDownload",
+    "filePattern": "ece_item_mappings_geco_*.txt",
+	"eceFiles": ["ece_item_mappings_geco_{startSession}.txt"],
+    "parseSessionNum":"ece_item_mappings_geco_"
+ }

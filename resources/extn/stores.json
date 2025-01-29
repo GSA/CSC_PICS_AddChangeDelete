@@ -1,0 +1,353 @@
+{
+  "stores": [
+        {
+      "name": "NAVFAC",
+    "process": true,
+      "vendorname4plprefix": [
+        {
+          "Seattle Lighthouse for the Blind": "NF01",
+          "Grainger": "NFAA"
+        }
+      ],
+      "distributionList":
+        {
+          "to": "lawrence.j.butler16.civ@us.navy.mil, jessica.m.kaiser9.civ@us.navy.mil,harry.ornelas.civ@us.navy.mil, jessica.m.kaiser9.civ@us.navy.mil, lance.c.yohe.civ@us.navy.mil, priscilla.k.gober.civ@us.navy.mil, ekene.o.warner.civ@us.navy.mil, gregory.a.witherspoon.civ@us.navy.mil, oscar.d.yepes.civ@us.navy.mil, lawrence.harris.civ@us.navy.mil, von.evangelista.civ@us.navy.mil, leslyann.k.komoda.civ@us.navy.mil, shirleyann.k.santiago.civ@us.navy.mil, adrian.c.everette.civ@us.navy.mil, maria.e.deshong.civ@us.navy.mil, stephen.w.willis4.civ@us.navy.mil, jessica.salmela.civ@us.navy.mil, robert.p.manton.civ@us.navy.mil,manuel.b.agyao.civ@us.navy.mil",
+           "cc": "brad.vetting@gsa.gov, kathy.taylor@gsa.gov, joey.gonzales@gsa.gov, bradley.walsh@gsa.gov,michael.whitford@gsa.gov, robert.sybil@gsa.gov, matthew.flagg@gsa.gov,vanessa.winter@gsa.gov,tyler.mccarthy@gsa.gov,shristi.amatya@gsa.gov",
+           "from_replyTo": "matthew.flagg@gsa.gov",
+          "emailbody": "<p>Hello,</p><p>Please see attached report of all NAVFAC items added or changed in PICS. This report is of all items that have been added or changed to Grainger or SLHB catalogs.</p><p>Thanks,<br>Matt </p>"
+        }
+      },
+     {
+      "name": "Naval Shipyards",
+    "process": true,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "NCAB"
+        }
+      ],
+      "distributionList":   {
+       "to" : "dana.a.desilva.civ@us.navy.mil,brad.vetting@gsa.gov, amber.park@gsa.gov,robert.sybil@gsa.gov,bradley.walsh@gsa.gov, lenny.rodriguez@gsa.gov",
+        "cc": "vanessa.winter@gsa.gov,tyler.mccarthy@gsa.gov,michael.whitford@gsa.gov,matthew.flagg@gsa.gov,shristi.amatya@gsa.gov",
+        "from_replyTo": "matthew.flagg@gsa.gov",
+          "emailbody": "<p>Hello,</p><p>Please see attached report of all Naval Shipyard items added or changed in PICS. This report is of all items that have been added or changed within the Grainger Navy catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Matt</p>"
+        }
+
+    },
+     {
+      "name": "USMC_CONUS",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "OSC Solutions": "MCAA",
+          "MSC Industrial": "MCAB",
+          "LC Industries": "MCAC",
+          "emailbody": ""
+        }
+      ],
+      "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": ""
+        }
+      ]
+    },{
+      "name": "USMC_Japan",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "OSC Solutions": "MCAA",
+          "MSC Industrial": "MCBB",
+          "LC Industries": "MCBC",
+          "emailbody": ""
+        }
+      ],
+      "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": ""
+        }
+      ]
+    },{
+      "name": "USMC_Yuma",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "AIB": "YA01",
+          "emailbody": ""
+        }
+      ],
+      "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": ""
+        }
+      ]
+    },{
+      "name": "JMTC",
+      "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "AFAA",
+          "IFB Solutions": "MLAB"
+        }
+      ],
+      "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov,samatya@rehancement.com",
+          "cc": "",
+          "replyTo": "",
+          "emailbody": ""
+        }
+      ]
+      },
+      {
+      "name": "USCG Yard",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "OSC Solutions": "CBAA",
+          "MSC Industrial": "CBAB",
+          "BISM": "OSAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "emailbody": ""
+        }
+      ]
+     },
+     {
+      "name": "Pine Bluff",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "AFAA",
+          "AlphaPointe": "MLAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "Red River",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "IFB Solutions": "AFAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "Japan",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "OJAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "Korea",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "OKAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "EOP",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "BISM": "OSAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "FRC_West",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "NCAB",
+          "Envision": "MLAC",
+          "": ""
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "FRC_Southeast",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "NCAB",
+          "LC Industries": "NA02"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "FRC Mid-Atlantic",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "NCAB",
+          "VIB": "NA04"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "FRC Southwest",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "NCAB",
+          "Seattle Lighthouse for the Blind": "NA05",
+          "": ""
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "Guam",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "NGAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "Hickam",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "NHAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "USAF - Tinker & Robins AFB",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "AFAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "JBER",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "AFAB"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     },
+     {
+      "name": "USAF",
+    "process": false,
+      "vendorname4plprefix": [
+        {
+          "Grainger": "OJAA",
+          "Grainger": "OKAA"
+        }
+      ],
+        "distributionList":  [
+        { "to" : "shristi.amatya@gsa.gov",
+          "cc": "",
+          "replyTo": "",
+          "body": ""
+        }
+      ]
+     }
+  ]
+}
