@@ -148,12 +148,13 @@ if __name__ == '__main__':
        filenameList = getAttachmentFromInbox()
        picsItemMappingFile_targetFolder = "./picsDownload"
        downloadedeceFile = pics.downloadFiles()
+       '''
        if downloadedeceFile == '':
            filePattern = 'ece_item_mappings_geco_*.txt'
            all_files = glob.glob(f'{picsItemMappingFile_targetFolder}/{filePattern}')
            sessionNum = int(max(all_files)[-8:-4])
            downloadedeceFile = f"ece_item_mappings_geco_{sessionNum}.txt"
-       #filenameList = ['downloadedAttachments/PICS-4PL-New-&-Updated-Items-MSC-08-22-2024.xlsx','downloadedAttachments/PICS-4PL-New-&-Updated-Items-Grainger-08-22-2024.xlsx']
+       '''
        if filenameList :
           loadTheAttachments(filenameList);
           sqloutputDF = executequery();
@@ -163,8 +164,7 @@ if __name__ == '__main__':
           df["Status Date"] = yesterday
           df = df[["Edd Prefix","Status Date","Vendor Name","Item Add or Change","Item Number","Item Name","Mfr Name","Part Number","UOM","Vendor Part Number","Sell Price"]]
           print(df);
-          #picsDeleteItemsDF = getPicsDeleteFile("test_ece_item_mappings_geco_2829.txt");
-          picsDeleteItemsDF = getPicsDeleteFile(downloadedeceFile)
+          #picsDeleteItemsDF = getPicsDeleteFile(downloadedeceFile)
           storesConfig = ut.load_json("resources/extn/stores.json")
           for store in storesConfig.values():
               for i in range(len(store)):
@@ -189,6 +189,7 @@ if __name__ == '__main__':
                                   createFileAndTab(attachment, filtered_df,sheet_name)
                               else:
                                   print(f'{eddPrefix} not found for {storename}');
+                              '''    
                               if eddPrefix in picsDeleteItemsDF['Edd Prefix'].values:
                                   filteredPicsDeleteItemsDF = picsDeleteItemsDF[picsDeleteItemsDF['Edd Prefix'] == eddPrefix]
                                   filteredPicsDeleteItemsDF =filteredPicsDeleteItemsDF[["ItemNo","Edd Prefix","BPA Number"]]
@@ -196,6 +197,7 @@ if __name__ == '__main__':
                                   createDeleteTab(attachment, filteredPicsDeleteItemsDF,sheet_name)
                               else:
                                   print(f'{eddPrefix} not found for PICS Delete File');
+                              '''
                       sendemail(emailAddresses, attachment)
                   else:
                       print(f'{process} is set to false for {storename}');
