@@ -10,14 +10,14 @@ import openpyxl
 import send_emails_smtp as se
 import pandas as pd
 import extn_utils as extn
-from commonUtils import common as c
+import common as c
 import base64
 from googleapiclient.errors import HttpError
 from datetime import date, timedelta
 import utils as ut
 import pandas_etl as pe
-import PICS_GECO as pics
 import glob
+
 allVendorsDF = pd.DataFrame();
 #get the last downloaded attachment
 today = date.today()
@@ -145,10 +145,22 @@ def sendemail(emailAddresses,attachment):
 
 if __name__ == '__main__':
        extn.deleteFolderContents('./output/files')
+       db_config = ut.load_json("resources/extn/dbConfig.json")
+       dbUsername = db_config['dbUsername']
+       dbPassword = db_config['dbPassword']
+       dbHostname = db_config['dbHostname']
+       openSys = extn.get_os_info()
+       print(openSys)
+       if openSys.lower()=='linux':
+           dburl = db_config['dburl_ux']
+       elif openSys.lower()=='windows':
+           dburl = db_config['dburl_win']
+           
+       os.environ['dburl'] = dburl
        filenameList = getAttachmentFromInbox()
        picsItemMappingFile_targetFolder = "./picsDownload"
-       downloadedeceFile = pics.downloadFiles()
        '''
+       downloadedeceFile = pics.downloadFiles()
        if downloadedeceFile == '':
            filePattern = 'ece_item_mappings_geco_*.txt'
            all_files = glob.glob(f'{picsItemMappingFile_targetFolder}/{filePattern}')
