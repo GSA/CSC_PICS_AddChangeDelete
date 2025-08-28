@@ -1,0 +1,4 @@
+{
+    "dburl_ux":"mssql+pyodbc://GSSREPORTS:C4YqERtvwQyT4nYj@E04TCM-GSASQL03.ent.ds.gsa.gov/QS_QUERY?driver=ODBC+Driver+17+for+SQL+Server",
+    "dburl_win":"mssql+pyodbc://BODDBServer"
+  }

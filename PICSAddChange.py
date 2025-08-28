@@ -1,6 +1,5 @@
 """
 Created on Thu May 18 11:39:58 2023
-@author: ShristiAmatya, ChatGPT
 Extracts the attachment that comes to the inbox; subject: PICS 4PL Active Item Adds/Updates
 Stores the attachment to the folder.
 """
@@ -25,7 +24,7 @@ if today.weekday() == 0:
     yesterday = today - timedelta(days=3)
 else:
    yesterday = today - timedelta(days=1)
-query ="after: {} from: {} subject: {}".format(yesterday.strftime('%Y/%m/%d'),'pics-do-not-reply@gsa.gov','PICS 4PL Active Item Adds/Updates')
+query ="after: {} subject: {}".format(yesterday.strftime('%Y/%m/%d'),'PICS 4PL Active Item Adds/Updates')
 filenameList=[];
 
 '''
@@ -86,7 +85,7 @@ def executequery():
     allitemno = "('" + "'),('".join(allVendorsDF['Item Number']) + "')"
     sqlquery = "WITH cte AS (SELECT [Item Number] FROM (VALUES" + allitemno + ") AS T([Item Number])) SELECT c.*, case when PICSDATE <> '' then 'Change' else 'Add' end as 'Item Add or Change' FROM cte c left join PICS_CATALOG p  on p.[4PLPARTNO] = c.[Item Number]"
     print(sqlquery);
-    return extn.executequery(sqlquery);
+    return extn.executequery(sqlquery,dburl);
 
 def createFileAndTab(attachment,filtered_df,sheet_name):
     os.environ["fileName"] = attachment
@@ -145,18 +144,15 @@ def sendemail(emailAddresses,attachment):
 
 if __name__ == '__main__':
        extn.deleteFolderContents('./output/files')
-       db_config = ut.load_json("resources/extn/dbConfig.json")
-       dbUsername = db_config['dbUsername']
-       dbPassword = db_config['dbPassword']
-       dbHostname = db_config['dbHostname']
-       openSys = extn.get_os_info()
-       print(openSys)
-       if openSys.lower()=='linux':
-           dburl = db_config['dburl_ux']
-       elif openSys.lower()=='windows':
-           dburl = db_config['dburl_win']
-           
-       os.environ['dburl'] = dburl
+       dbconfig = ut.load_json("resources/extn/dburl.json")
+       #  print(dbconfig)
+       operSys =  extn.get_os_info()
+       if operSys.lower() == 'linux':
+          dburl = dbconfig.get('dburl_ux')
+       elif operSys.lower() == 'windows':
+          dburl = dbconfig.get('dburl_win')
+       os.environ["dburl"] = dburl
+
        filenameList = getAttachmentFromInbox()
        picsItemMappingFile_targetFolder = "./picsDownload"
        '''
