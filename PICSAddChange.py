@@ -1,6 +1,5 @@
 """
 Created on Thu May 18 11:39:58 2023
-@author: ShristiAmatya, ChatGPT
 Extracts the attachment that comes to the inbox; subject: PICS 4PL Active Item Adds/Updates
 Stores the attachment to the folder.
 """
@@ -10,14 +9,14 @@ import openpyxl
 import send_emails_smtp as se
 import pandas as pd
 import extn_utils as extn
-from commonUtils import common as c
+import common as c
 import base64
 from googleapiclient.errors import HttpError
 from datetime import date, timedelta
 import utils as ut
 import pandas_etl as pe
-#import PICS_GECO as pics
 import glob
+
 allVendorsDF = pd.DataFrame();
 #get the last downloaded attachment
 today = date.today()
@@ -144,17 +143,26 @@ def sendemail(emailAddresses,attachment):
         extn.print_colored("An error occurred while sending the email:" + str(e), "red")
 
 if __name__ == '__main__':
-       dbconfig = ut.load_json("resources/extn/dburl.json")
-       operSys = extn.get_os_info()
-       if operSys.lower() == 'linux':
-            dburl = dbconfig.get('dburl_ux')
-       elif operSys.lower() == 'windows':
-            dburl = dbconfig.get('dburl_win')
-       os.environ["dburl"] = dburl
        extn.deleteFolderContents('./output/files')
+       dbconfig = ut.load_json("resources/extn/dburl.json")
+       #  print(dbconfig)
+       operSys =  extn.get_os_info()
+       if operSys.lower() == 'linux':
+          dburl = dbconfig.get('dburl_ux')
+       elif operSys.lower() == 'windows':
+          dburl = dbconfig.get('dburl_win')
+       os.environ["dburl"] = dburl
 
        filenameList = getAttachmentFromInbox()
        picsItemMappingFile_targetFolder = "./picsDownload"
+       '''
+       downloadedeceFile = pics.downloadFiles()
+       if downloadedeceFile == '':
+           filePattern = 'ece_item_mappings_geco_*.txt'
+           all_files = glob.glob(f'{picsItemMappingFile_targetFolder}/{filePattern}')
+           sessionNum = int(max(all_files)[-8:-4])
+           downloadedeceFile = f"ece_item_mappings_geco_{sessionNum}.txt"
+       '''
        if filenameList :
           loadTheAttachments(filenameList);
           sqloutputDF = executequery();

@@ -1,0 +1,9 @@
+{
+  "dbHostname" : "E04TCM-GSASQL03.ent.ds.gsa.gov",
+  "dbUsername" : "shristiamatya",
+  "dbPassword" : "${password}",
+  "dburl_ux" : "mssql+pyodbc://shristiamatya:${password}@E04TCM-GSASQL03.ent.ds.gsa.gov/FL_DB?driver=ODBC+Driver+17+for+SQL+Server",
+  "dburl_win" : "mssql+pyodbc://BODDBServer",
+  "localTargetFolder": ".//tempFiles//",
+  "dbSharedFolder" : "/SQLSFTP_Home/DATALOAD/PICS/"
+  }
