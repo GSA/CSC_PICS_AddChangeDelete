@@ -1,0 +1,4 @@
+{
+    "dburl_ux":"mssql+pyodbc://<<username>>:<<password>>@<<db_servernam>>/FL_DB?driver=ODBC+Driver+17+for+SQL+Server",
+        "dburl_win":"mssql+pyodbc://BODDBServer"
+  }

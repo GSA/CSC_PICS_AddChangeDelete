@@ -16,7 +16,7 @@ from googleapiclient.errors import HttpError
 from datetime import date, timedelta
 import utils as ut
 import pandas_etl as pe
-import PICS_GECO as pics
+#import PICS_GECO as pics
 import glob
 allVendorsDF = pd.DataFrame();
 #get the last downloaded attachment
@@ -25,7 +25,7 @@ if today.weekday() == 0:
     yesterday = today - timedelta(days=3)
 else:
    yesterday = today - timedelta(days=1)
-query ="after: {} from: {} subject: {}".format(yesterday.strftime('%Y/%m/%d'),'pics-do-not-reply@gsa.gov','PICS 4PL Active Item Adds/Updates')
+query ="after: {} subject: {}".format(yesterday.strftime('%Y/%m/%d'),'PICS 4PL Active Item Adds/Updates')
 filenameList=[];
 
 '''
@@ -86,7 +86,7 @@ def executequery():
     allitemno = "('" + "'),('".join(allVendorsDF['Item Number']) + "')"
     sqlquery = "WITH cte AS (SELECT [Item Number] FROM (VALUES" + allitemno + ") AS T([Item Number])) SELECT c.*, case when PICSDATE <> '' then 'Change' else 'Add' end as 'Item Add or Change' FROM cte c left join PICS_CATALOG p  on p.[4PLPARTNO] = c.[Item Number]"
     print(sqlquery);
-    return extn.executequery(sqlquery);
+    return extn.executequery(sqlquery,dburl);
 
 def createFileAndTab(attachment,filtered_df,sheet_name):
     os.environ["fileName"] = attachment
@@ -144,17 +144,17 @@ def sendemail(emailAddresses,attachment):
         extn.print_colored("An error occurred while sending the email:" + str(e), "red")
 
 if __name__ == '__main__':
+       dbconfig = ut.load_json("resources/extn/dburl.json")
+       operSys = extn.get_os_info()
+       if operSys.lower() == 'linux':
+            dburl = dbconfig.get('dburl_ux')
+       elif operSys.lower() == 'windows':
+            dburl = dbconfig.get('dburl_win')
+       os.environ["dburl"] = dburl
        extn.deleteFolderContents('./output/files')
+
        filenameList = getAttachmentFromInbox()
        picsItemMappingFile_targetFolder = "./picsDownload"
-       downloadedeceFile = pics.downloadFiles()
-       '''
-       if downloadedeceFile == '':
-           filePattern = 'ece_item_mappings_geco_*.txt'
-           all_files = glob.glob(f'{picsItemMappingFile_targetFolder}/{filePattern}')
-           sessionNum = int(max(all_files)[-8:-4])
-           downloadedeceFile = f"ece_item_mappings_geco_{sessionNum}.txt"
-       '''
        if filenameList :
           loadTheAttachments(filenameList);
           sqloutputDF = executequery();
