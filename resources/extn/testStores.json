@@ -2,7 +2,7 @@
   "stores": [
         {
       "name": "NAVFAC",
-    "process": true,
+    "process": false,
       "vendorname4plprefix": [
         {
           "Seattle Lighthouse for the Blind": "NF01",
@@ -19,7 +19,7 @@
       },
      {
       "name": "Naval Shipyards",
-    "process": true,
+    "process": false,
       "vendorname4plprefix": [
         {
           "Grainger": "NCAB"
@@ -58,7 +58,7 @@
       ],
       "distributionList":   {
        "to" : "shristi.amatya@gsa.gov",
-        "cc": "shristi.amatya@gsa.gov",
+        "cc": "shristi.amatya@gsa.gov,samantha.palacios@gsa.gov,matthew.flagg@gsa.gov",
         "from_replyTo": "matthew.flagg@gsa.gov",
           "emailbody": "<p>TEST!!!- Hello,</p><p>Please see attached report of all USAF items added or changed in PICS. This report is of all items that have been added or changed within the Grainger USAF catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Matt</p>"
         }

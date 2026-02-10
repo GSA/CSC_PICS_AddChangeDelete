@@ -188,8 +188,7 @@ if __name__ == '__main__':
                   # print(emailAddresses)
                   if (process):
                       for vendor in vendorPrefix:
-                          for key, value in vendor.items():  # accesses both the keys and values from the dictionary
-                              vendorName = key;
+                          for value in vendor.values():# accesses both the keys and values from the dictionary
                               eddPrefix = value;
                               # print(VendorName,eddPrefix)
                               if eddPrefix in df['Edd Prefix'].values:  # checks if the eddprefix is in the mergeddf
