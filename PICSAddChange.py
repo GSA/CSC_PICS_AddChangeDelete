@@ -18,12 +18,13 @@ import pandas_etl as pe
 import glob
 
 allVendorsDF = pd.DataFrame();
+finalFilteredDf = pd.DataFrame();
 #get the last downloaded attachment
 today = date.today()
 if today.weekday() == 0:
     yesterday = today - timedelta(days=3)
 else:
-   yesterday = today - timedelta(days=1)
+   yesterday = today - timedelta(days=4)
 query ="after: {} subject: {}".format(yesterday.strftime('%Y/%m/%d'),'PICS 4PL Active Item Adds/Updates')
 filenameList=[];
 
@@ -129,7 +130,7 @@ def getPicsDeleteFile(picsDeleteFile):
 
 def sendemail(emailAddresses,attachment):
     finalBody = distributionList.get('emailbody')
-    subject = f'{storename} Item Add/Change/Delete Report {yesterday} '
+    subject = f'{storename} Item Add/Change Report {yesterday} '
     filename = f'{storename}_{yesterday}.xlsx'
     emailAddress = distributionList.get('to')
     allCCEmailAddress = distributionList.get('cc')
@@ -173,7 +174,8 @@ if __name__ == '__main__':
           df = df[["Edd Prefix","Status Date","Vendor Name","Item Add or Change","Item Number","Item Name","Mfr Name","Part Number","UOM","Vendor Part Number","Sell Price"]]
           print(df);
           #picsDeleteItemsDF = getPicsDeleteFile(downloadedeceFile)
-          storesConfig = ut.load_json("resources/extn/stores.json")
+          #storesConfig = ut.load_json("resources/extn/stores.json")
+          storesConfig = ut.load_json("resources/extn/testStores.json")
           for store in storesConfig.values():
               for i in range(len(store)):
                   storename = store[i]['name'];
@@ -187,14 +189,13 @@ if __name__ == '__main__':
                   if (process):
                       for vendor in vendorPrefix:
                           for key, value in vendor.items():  # accesses both the keys and values from the dictionary
-                              VendorName = key;
+                              vendorName = key;
                               eddPrefix = value;
                               # print(VendorName,eddPrefix)
                               if eddPrefix in df['Edd Prefix'].values:  # checks if the eddprefix is in the mergeddf
-                                  filtered_df = df[df['Edd Prefix'] == eddPrefix]  # filters the rows where the eddprefix is found and puts it in a dataframe
-                                  sheet_name = "PICS_Add_Update"
-                                  print(filtered_df)
-                                  createFileAndTab(attachment, filtered_df,sheet_name)
+                                  filteredDf = df[df['Edd Prefix'] == eddPrefix]  # filters the rows where the eddprefix is found and puts it in a dataframe
+                                  finalFilteredDf=pd.concat([finalFilteredDf,filteredDf],ignore_index=True)
+                                  print(filteredDf)
                               else:
                                   print(f'{eddPrefix} not found for {storename}');
                               '''    
@@ -206,6 +207,8 @@ if __name__ == '__main__':
                               else:
                                   print(f'{eddPrefix} not found for PICS Delete File');
                               '''
+                      sheet_name = "PICS_Add_Update"
+                      createFileAndTab(attachment, finalFilteredDf, sheet_name)
                       sendemail(emailAddresses, attachment)
                   else:
                       print(f'{process} is set to false for {storename}');
