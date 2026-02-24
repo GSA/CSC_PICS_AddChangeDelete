@@ -18,16 +18,16 @@ import pandas_etl as pe
 import glob
 
 allVendorsDF = pd.DataFrame();
-finalFilteredDf = pd.DataFrame();
+
 #get the last downloaded attachment
 today = date.today()
 if today.weekday() == 0:
     yesterday = today - timedelta(days=3)
 else:
-   yesterday = today - timedelta(days=4)
+   yesterday = today - timedelta(days=1)
 query ="after: {} subject: {}".format(yesterday.strftime('%Y/%m/%d'),'PICS 4PL Active Item Adds/Updates')
 filenameList=[];
-
+#filenameList = ['downloadedAttachments/PICS-4PL-New-&-Updated-Items-LCI-02-17-2026.xlsx','downloadedAttachments/PICS-4PL-New-&-Updated-Items-BISM-02-17-2026.xlsx']
 '''
 Extracts the attachment that comes to GSSAutomation group email; subject: [GSSAutomation] Awards in error report
 Stores the attachment to the folder.
@@ -84,7 +84,7 @@ Insert the CSV file to the table.
 
 def executequery():
     allitemno = "('" + "'),('".join(allVendorsDF['Item Number']) + "')"
-    sqlquery = "WITH cte AS (SELECT [Item Number] FROM (VALUES" + allitemno + ") AS T([Item Number])) SELECT c.*, case when PICSDATE <> '' then 'Change' else 'Add' end as 'Item Add or Change' FROM cte c left join PICS_CATALOG p  on p.[4PLPARTNO] = c.[Item Number]"
+    sqlquery = "WITH allItemNos AS (SELECT [Item Number] FROM (VALUES " + allitemno + ") AS T([Item Number])) ,concatIMItemno as (select ITEMNO,concat(projcode COLLATE DATABASE_DEFAULT,ITEMNO COLLATE DATABASE_DEFAULT) as ITEMNO2,processdate, [action] from QS_QUERY.dbo.PICS_ITEM_MAPPING) ,maxProcessDate as (select a.[Item Number] as ITEMNO,max(PROCESSDATE) as PROCESSDATE from concatIMItemno t right join allItemNos a on t.ITEMNO2= a.[Item Number] group by a.[Item Number] ) ,deletesFromIM as ( select c.itemno, case when [ACTION] ='D' then 'Delete' else null end as [Action] from concatIMItemno cin right join maxProcessDate c on c.ITEMNO = cin.ITEMNO2 and c.PROCESSDATE=cin.PROCESSDATE) Select d.ITEMNO as [Item Number], case when [Action] is not null then [Action] when [Action] is null and PICSDATE <> '' then 'Change' else 'Add' end as [Item Add or Change] from deletesFromIM d left join PICS_CATALOG p on d.ITEMNO = p.[4plpartno]"
     print(sqlquery);
     return extn.executequery(sqlquery,dburl);
 
@@ -98,50 +98,19 @@ def createFileAndTab(attachment,filtered_df,sheet_name):
     else:
        print("dfToExcel json file did not load properly.")
 
-def createDeleteTab(attachment,filtered_df,sheet_name):
-    try:
-        # Check if the sheet exists
-        if os.path.exists(attachment):
-            book = openpyxl.load_workbook(attachment)
-            if sheet_name not in book.sheetnames:
-              # If the sheet does not exist, create it
-               with pd.ExcelWriter(attachment, engine='openpyxl', mode='a') as writer:
-                   filtered_df.to_excel(writer, sheet_name=sheet_name, index=False)
-               print(f"Sheet '{sheet_name}' created successfully.")
-            else:
-                createFileAndTab(attachment, filtered_df, sheet_name)
-        else:
-             createFileAndTab(attachment, filtered_df, sheet_name)
-
-    except FileNotFoundError:
-        print(f"File '{attachment}' does not exist.")
-
-
-def getPicsDeleteFile(picsDeleteFile):
-    picsItemMappingFile = f'{picsItemMappingFile_targetFolder}/{picsDeleteFile}'
-    print(picsItemMappingFile)
-    columnNames = ["Action","ItemNo","Edd Prefix","Agency","BPA Number","column1","Sinno"]
-    df = pd.read_csv(filepath_or_buffer=picsItemMappingFile,engine='python',delimiter=r'\^|\|',header= None);
-    df_cleaned = df.dropna(axis=1,how='any')
-    df_cleaned.columns = columnNames
-    picsDeleteItemsDF = df_cleaned[df_cleaned['Action'] =='D']
-    print(picsDeleteItemsDF)
-    return picsDeleteItemsDF
-
 def sendemail(emailAddresses,attachment):
     finalBody = distributionList.get('emailbody')
-    subject = f'{storename} Item Add/Change Report {yesterday} '
+    subject = f'{storename} Item Add/Change/Delete Report {yesterday} '
     filename = f'{storename}_{yesterday}.xlsx'
     emailAddress = distributionList.get('to')
     allCCEmailAddress = distributionList.get('cc')
     fromEmail = distributionList.get('from_replyTo')
     allBCCEmailAddress = ''
     try:
-       #extn.setColumnWidthDynamically(attachment)
        email_params_list = [se.EmailParams(fromEmail, emailAddress, allCCEmailAddress, allBCCEmailAddress, fromEmail, subject, finalBody, [attachment], filename)]
        se.send_email_with_starttls(email_params_list)
     except Exception as e:
-        extn.print_colored("An error occurred while sending the email:" + str(e), "red")
+        extn.print_colored("Email not sent" + str(e), "red")
 
 if __name__ == '__main__':
        extn.deleteFolderContents('./output/files')
@@ -154,26 +123,16 @@ if __name__ == '__main__':
           dburl = dbconfig.get('dburl_win')
        os.environ["dburl"] = dburl
 
-       filenameList = getAttachmentFromInbox()
-       picsItemMappingFile_targetFolder = "./picsDownload"
-       '''
-       downloadedeceFile = pics.downloadFiles()
-       if downloadedeceFile == '':
-           filePattern = 'ece_item_mappings_geco_*.txt'
-           all_files = glob.glob(f'{picsItemMappingFile_targetFolder}/{filePattern}')
-           sessionNum = int(max(all_files)[-8:-4])
-           downloadedeceFile = f"ece_item_mappings_geco_{sessionNum}.txt"
-       '''
+       filenameList = getAttachmentFromInbox() #download the recent PICS files
        if filenameList :
           loadTheAttachments(filenameList);
           sqloutputDF = executequery();
-          #print(sqloutputDF);i
+          #print(sqloutputDF);
           df = pd.merge(allVendorsDF, sqloutputDF, on='Item Number',how='left');  # joins two dataframes on common item number
           df = df.drop(columns = ["Contract Number","BPA Number","SIN","Price Category","Sched Price","Cost Price"])
           df["Status Date"] = yesterday
           df = df[["Edd Prefix","Status Date","Vendor Name","Item Add or Change","Item Number","Item Name","Mfr Name","Part Number","UOM","Vendor Part Number","Sell Price"]]
           print(df);
-          #picsDeleteItemsDF = getPicsDeleteFile(downloadedeceFile)
           #storesConfig = ut.load_json("resources/extn/stores.json")
           storesConfig = ut.load_json("resources/extn/testStores.json")
           for store in storesConfig.values():
@@ -187,8 +146,9 @@ if __name__ == '__main__':
                   emailAddresses = (store[i]['distributionList']);
                   # print(emailAddresses)
                   if (process):
+                      finalFilteredDf = pd.DataFrame(); #new dataframe after every vendor
                       for vendor in vendorPrefix:
-                          for value in vendor.values():# accesses both the keys and values from the dictionary
+                          for value in vendor.values():# accesses eddprefix for each vendor
                               eddPrefix = value;
                               # print(VendorName,eddPrefix)
                               if eddPrefix in df['Edd Prefix'].values:  # checks if the eddprefix is in the mergeddf
@@ -197,17 +157,11 @@ if __name__ == '__main__':
                                   print(filteredDf)
                               else:
                                   print(f'{eddPrefix} not found for {storename}');
-                              '''    
-                              if eddPrefix in picsDeleteItemsDF['Edd Prefix'].values:
-                                  filteredPicsDeleteItemsDF = picsDeleteItemsDF[picsDeleteItemsDF['Edd Prefix'] == eddPrefix]
-                                  filteredPicsDeleteItemsDF =filteredPicsDeleteItemsDF[["ItemNo","Edd Prefix","BPA Number"]]
-                                  sheet_name = "PICS_Delete"
-                                  createDeleteTab(attachment, filteredPicsDeleteItemsDF,sheet_name)
+                              sheet_name = "PICS_Add_Update"
+                              if finalFilteredDf.empty: #check if the finalfilteredDF is empty
+                                  print("Edds not found.")
                               else:
-                                  print(f'{eddPrefix} not found for PICS Delete File');
-                              '''
-                      sheet_name = "PICS_Add_Update"
-                      createFileAndTab(attachment, finalFilteredDf, sheet_name)
+                                 createFileAndTab(attachment, finalFilteredDf, sheet_name)
                       sendemail(emailAddresses, attachment)
                   else:
                       print(f'{process} is set to false for {storename}');

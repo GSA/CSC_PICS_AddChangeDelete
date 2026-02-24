@@ -7,7 +7,7 @@
     "type" : "excel",
     "file": "${fileName}",
     "sheet": "${operation}",
-    "mode" : "a",
+    "mode" : "w",
     "header":false,
 	"date_format": "mm-dd-yyyy",
     "datetime_format": "mm-dd-yyyy hh:mm:ss"
