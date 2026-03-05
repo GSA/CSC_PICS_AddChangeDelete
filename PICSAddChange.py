@@ -18,7 +18,7 @@ import pandas_etl as pe
 import glob
 
 allVendorsDF = pd.DataFrame();
-
+requiredEDDs = ['NF01','NFAA','NCAB','OSAA','AFAA','AFAB','MLAB','MLAA']
 #get the last downloaded attachment
 today = date.today()
 if today.weekday() == 0:
@@ -76,6 +76,8 @@ def loadTheAttachments(filenameList):
           store_df = etl.from_source()
           allVendorsDF = pd.concat([allVendorsDF, store_df], ignore_index=True)
           allVendorsDF['Edd Prefix'] = allVendorsDF['Item Number'].str[:4];
+    reqVendorsDf=allVendorsDF[allVendorsDF['Edd Prefix'].isin(requiredEDDs)]
+    return reqVendorsDf
 
 '''
 Extract attachment that comes everyday in an email subject- [GSSAutomation] Awards in error report
@@ -83,9 +85,12 @@ Insert the CSV file to the table.
 '''
 
 def executequery():
-    allitemno = "('" + "'),('".join(allVendorsDF['Item Number']) + "')"
-    sqlquery = "WITH allItemNos AS (SELECT [Item Number] FROM (VALUES " + allitemno + ") AS T([Item Number])) ,concatIMItemno as (select ITEMNO,concat(projcode COLLATE DATABASE_DEFAULT,ITEMNO COLLATE DATABASE_DEFAULT) as ITEMNO2,processdate, [action] from QS_QUERY.dbo.PICS_ITEM_MAPPING) ,maxProcessDate as (select a.[Item Number] as ITEMNO,max(PROCESSDATE) as PROCESSDATE from concatIMItemno t right join allItemNos a on t.ITEMNO2= a.[Item Number] group by a.[Item Number] ) ,deletesFromIM as ( select c.itemno, case when [ACTION] ='D' then 'Delete' else null end as [Action] from concatIMItemno cin right join maxProcessDate c on c.ITEMNO = cin.ITEMNO2 and c.PROCESSDATE=cin.PROCESSDATE) Select d.ITEMNO as [Item Number], case when [Action] is not null then [Action] when [Action] is null and PICSDATE <> '' then 'Change' else 'Add' end as [Item Add or Change] from deletesFromIM d left join PICS_CATALOG p on d.ITEMNO = p.[4plpartno]"
-    print(sqlquery);
+    if len(allVendorsDF) > 0 :
+       allitemno = "('" + "'),('".join(reqVendorsDf['Item Number']) + "')"
+       sqlquery = "WITH allItemNos AS (SELECT [Item Number] FROM (VALUES " + allitemno + ") AS T([Item Number])) ,concatIMItemno as (select ITEMNO,concat(projcode COLLATE DATABASE_DEFAULT,ITEMNO COLLATE DATABASE_DEFAULT) as ITEMNO2,processdate, [action] from QS_QUERY.dbo.PICS_ITEM_MAPPING) ,maxProcessDate as (select a.[Item Number] as ITEMNO,max(PROCESSDATE) as PROCESSDATE from concatIMItemno t right join allItemNos a on t.ITEMNO2= a.[Item Number] group by a.[Item Number] ) ,deletesFromIM as ( select c.itemno, case when [ACTION] ='D' then 'Delete' else null end as [Action] from concatIMItemno cin right join maxProcessDate c on c.ITEMNO = cin.ITEMNO2 and c.PROCESSDATE=cin.PROCESSDATE) Select d.ITEMNO as [Item Number], case when [Action] is not null then [Action] when [Action] is null and PICSDATE <> '' then 'Change' else 'Add' end as [Item Add or Change] from deletesFromIM d left join PICS_CATALOG p on d.ITEMNO = p.[4plpartno]"
+       print(sqlquery);
+    else:
+        print("reqVendorsDF is empty")
     return extn.executequery(sqlquery,dburl);
 
 def createFileAndTab(attachment,filtered_df,sheet_name):
@@ -113,6 +118,7 @@ def sendemail(emailAddresses,attachment):
         extn.print_colored("Email not sent" + str(e), "red")
 
 if __name__ == '__main__':
+    try:
        extn.deleteFolderContents('./output/files')
        dbconfig = ut.load_json("resources/extn/dburl.json")
        #  print(dbconfig)
@@ -125,7 +131,7 @@ if __name__ == '__main__':
 
        filenameList = getAttachmentFromInbox() #download the recent PICS files
        if filenameList :
-          loadTheAttachments(filenameList);
+          reqVendorsDf=loadTheAttachments(filenameList);
           sqloutputDF = executequery();
           #print(sqloutputDF);
           df = pd.merge(allVendorsDF, sqloutputDF, on='Item Number',how='left');  # joins two dataframes on common item number
@@ -133,8 +139,8 @@ if __name__ == '__main__':
           df["Status Date"] = yesterday
           df = df[["Edd Prefix","Status Date","Vendor Name","Item Add or Change","Item Number","Item Name","Mfr Name","Part Number","UOM","Vendor Part Number","Sell Price"]]
           print(df);
-          #storesConfig = ut.load_json("resources/extn/stores.json")
-          storesConfig = ut.load_json("resources/extn/testStores.json")
+          storesConfig = ut.load_json("resources/extn/stores.json")
+          #storesConfig = ut.load_json("resources/extn/testStores.json")
           for store in storesConfig.values():
               for i in range(len(store)):
                   storename = store[i]['name'];
@@ -165,3 +171,6 @@ if __name__ == '__main__':
                       sendemail(emailAddresses, attachment)
                   else:
                       print(f'{process} is set to false for {storename}');
+    except Exception as e:
+        print("Error completing the process:" + str(e))
+

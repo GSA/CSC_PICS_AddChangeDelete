@@ -2,7 +2,7 @@
   "stores": [
         {
       "name": "NAVFAC",
-    "process": false,
+    "process": true,
       "vendorname4plprefix": [
         {
           "Seattle Lighthouse for the Blind": "NF01",
@@ -19,7 +19,7 @@
       },
      {
       "name": "Naval Shipyards",
-    "process": false,
+    "process": true,
       "vendorname4plprefix": [
         {
           "Grainger": "NCAB"
@@ -34,7 +34,7 @@
 
     },{
       "name": "EOP",
-    "process": false,
+    "process": true,
       "vendorname4plprefix": [
         {
              "BISM": "OSAA"
@@ -58,7 +58,7 @@
       ],
       "distributionList":   {
        "to" : "robert.sybil@gsa.gov,Jonathan.Hoover@gsa.gov,Jennifer.Sotelo@gsa.gov,David.Rivera@gsa.gov,Nicole.Blake@gsa.gov,thomas.crawley@us.af.mil,jason.sylvester@us.af.mil,jason.robinson.18@us.af.mil,linda.davis.21@us.af.mil,jonathan.lenz.3@us.af.mil,mary.dollar.1@us.af.mil,robert.taylor.25@us.af.mil,kristin.osborne.1@us.af.mil,larry.richins@us.af.mil,kurt.kraus.1@us.af.mil,Dustin.Burton@grainger.com,chad.kautz@grainger.com,Austin.Gillis@grainger.com,tracy.tyndal@grainger.com,burnie.sloan@grainger.com,christopher.m.carter22.civ@army.mil,darren.m.lee9.civ@army.mil,donna.m.rossum.civ@army.mil,eddie.c.johnson1.civ@army.mil,grant.m.davis1.civ@army.mil,kenneth.l.irizarry.civ@army.mil",
-        "cc": "will.rayam@gsa.gov,kathy.taylor@gsa.gov,brad.vetting@gsa.gov,amber.park@gsa.gov,keesha.brady@gsa.gov,jada.kelley@gsa.gov,vanessa.winter@gsa.gov,samantha.palacios@gsa.gov,shristi.amatya@gsa.gov",
+        "cc": "will.rayam@gsa.gov,kathy.taylor@gsa.gov,brad.vetting@gsa.gov,amber.park@gsa.gov,keesha.brady@gsa.gov,jada.kelley@gsa.gov,vanessa.winter@gsa.gov,samantha.palacios@gsa.gov,matthew.flagg@gsa.gov,shristi.amatya@gsa.gov",
         "from_replyTo": "samantha.palacios@gsa.gov",
           "emailbody": "<p>Hello,</p><p>Please see attached report of all Army/Air Force  items added or changed or deleted in PICS. This report is of all items that have been added or changed or deleted within the Grainger Army/Air Force catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Samy Palacios</p>"
         }
@@ -73,7 +73,7 @@
       ],
       "distributionList":   {
        "to" : "vydal.watts@gsa.gov,mark.e.ploehn.civ@army.mil",
-        "cc": "will.rayam@gsa.gov,kathy.taylor@gsa.gov,brad.vetting@gsa.gov,amber.park@gsa.gov,keesha.brady@gsa.gov,jada.kelley@gsa.gov,vanessa.winter@gsa.gov,samantha.palacios@gsa.gov",
+        "cc": "will.rayam@gsa.gov,kathy.taylor@gsa.gov,brad.vetting@gsa.gov,amber.park@gsa.gov,keesha.brady@gsa.gov,jada.kelley@gsa.gov,vanessa.winter@gsa.gov,samantha.palacios@gsa.gov,matthew.flagg@gsa.gov,shristi.amatya@gsa.gov",
         "from_replyTo": "samantha.palacios@gsa.gov",
           "emailbody": "<p>Hello,</p><p>Please see attached report of all IFB items added or changed or deleted in PICS. This report is of all items that have been added or changed or deleted within the IFB catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Samy Palacios</p>"
         }
@@ -87,7 +87,7 @@
       ],
       "distributionList":   {
        "to" : "william.s.oliver18.civ@army.mil",
-        "cc": "kennesha.jones@gsa.gov,jonathan.hoover@gsa.gov,will.rayam@gsa.gov,kathy.taylor@gsa.gov,brad.vetting@gsa.gov,amber.park@gsa.gov,keesha.brady@gsa.gov,jada.kelley@gsa.gov,vanessa.winter@gsa.gov,samantha.palacios@gsa.gov",
+        "cc": "kennesha.jones@gsa.gov,jonathan.hoover@gsa.gov,will.rayam@gsa.gov,kathy.taylor@gsa.gov,brad.vetting@gsa.gov,amber.park@gsa.gov,keesha.brady@gsa.gov,jada.kelley@gsa.gov,vanessa.winter@gsa.gov,samantha.palacios@gsa.gov,matthew.flagg@gsa.gov,shristi.amatya@gsa.gov",
         "from_replyTo": "samantha.palacios@gsa.gov",
           "emailbody": "<p>Hello,</p><p>Please see attached report of all AlphaPointe items added or changed or deleted in PICS. This report is of all items that have been added or changed or deleted within the AlphaPointe catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Samy Palacios</p>"
         }
