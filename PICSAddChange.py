@@ -21,6 +21,8 @@ allVendorsDF = pd.DataFrame();
 requiredEDDs = ['NF01','NFAA','NCAB','OSAA','AFAA','AFAB','MLAB','MLAA']
 #get the last downloaded attachment
 today = date.today()
+today = (date.today())- timedelta(days=1)
+print(today)
 if today.weekday() == 0:
     yesterday = today - timedelta(days=3)
 else:
@@ -85,7 +87,7 @@ Insert the CSV file to the table.
 '''
 
 def executequery():
-    if len(allVendorsDF) > 0 :
+    if len(reqVendorsDf) > 0 :
        allitemno = "('" + "'),('".join(reqVendorsDf['Item Number']) + "')"
        sqlquery = "WITH allItemNos AS (SELECT [Item Number] FROM (VALUES " + allitemno + ") AS T([Item Number])) ,concatIMItemno as (select ITEMNO,concat(projcode COLLATE DATABASE_DEFAULT,ITEMNO COLLATE DATABASE_DEFAULT) as ITEMNO2,processdate, [action] from QS_QUERY.dbo.PICS_ITEM_MAPPING) ,maxProcessDate as (select a.[Item Number] as ITEMNO,max(PROCESSDATE) as PROCESSDATE from concatIMItemno t right join allItemNos a on t.ITEMNO2= a.[Item Number] group by a.[Item Number] ) ,deletesFromIM as ( select c.itemno, case when [ACTION] ='D' then 'Delete' else null end as [Action] from concatIMItemno cin right join maxProcessDate c on c.ITEMNO = cin.ITEMNO2 and c.PROCESSDATE=cin.PROCESSDATE) Select d.ITEMNO as [Item Number], case when [Action] is not null then [Action] when [Action] is null and PICSDATE <> '' then 'Change' else 'Add' end as [Item Add or Change] from deletesFromIM d left join PICS_CATALOG p on d.ITEMNO = p.[4plpartno]"
        print(sqlquery);
