@@ -42,8 +42,8 @@
       ],
       "distributionList":   {
        "to" : "shristi.amatya@gsa.gov",
-        "cc": "shristi.amatya@gsa.gov,samantha.palacios@gsa.gov",
-        "from_replyTo": "samantha.palacios@gsa.gov",
+        "cc": "shristi.amatya@gsa.gov",
+        "from_replyTo": "shristi.amatya@gsa.gov",
         "emailbody": "<p>TEST!! Hello,</p><p>Please see attached report of all EOP items added or changed or deleted in PICS for today. This report is of all items that have been added or changed or deleted to BISM.</p><p>Thanks,<br>Samy Palacios</p>"
         }
     },
@@ -58,8 +58,8 @@
       ],
       "distributionList":   {
           "to" : "shristi.amatya@gsa.gov",
-        "cc": "shristi.amatya@gsa.gov,matthew.flagg@gsa.gov,samantha.palacios@gsa.gov",
-        "from_replyTo": "samantha.palacios@gsa.gov",
+        "cc": "shristi.amatya@gsa.gov",
+        "from_replyTo": "shristi.amatya@gsa.gov",
           "emailbody": "<p> TEST!! Hello,</p><p>Please see attached report of all Army/Air Force items added or changed or deleted in PICS. This report is of all items that have been added or changed or deleted within the Grainger Army/Air Force catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Samy Palacios</p>"
         }
     },
@@ -74,7 +74,7 @@
       "distributionList":   {
           "to" : "shristi.amatya@gsa.gov",
         "cc": "shristi.amatya@gsa.gov",
-        "from_replyTo": "samantha.palacios@gsa.gov",
+        "from_replyTo": "shristi.amatya@gsa.gov",
           "emailbody": "<p>Hello,</p><p>Please see attached report of all IFB items added or changed or deleted in PICS. This report is of all items that have been added or changed or deleted within the IFB catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Samy Palacios</p>"
         }
     },{
@@ -88,7 +88,7 @@
       "distributionList":   {
          "to" : "shristi.amatya@gsa.gov",
         "cc": "shristi.amatya@gsa.gov",
-        "from_replyTo": "samantha.palacios@gsa.gov",
+        "from_replyTo": "shristi.amatya@gsa.gov",
           "emailbody": "<p>Hello,</p><p>Please see attached report of all AlphaPointe items added or changed or deleted in PICS. This report is of all items that have been added or changed or deleted within the AlphaPointe catalogs.</p><p>If you have any questions or would like personnel added to this recurring distribution, please let me know.</p><p>Thanks,<br>Samy Palacios</p>"
         }
     }

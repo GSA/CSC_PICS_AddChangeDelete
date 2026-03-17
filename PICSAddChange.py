@@ -21,12 +21,14 @@ allVendorsDF = pd.DataFrame();
 requiredEDDs = ['NF01','NFAA','NCAB','OSAA','AFAA','AFAB','MLAB','MLAA']
 #get the last downloaded attachment
 today = date.today()
-today = (date.today())- timedelta(days=1)
+#today = (date.today())- timedelta(days=1)
 print(today)
 if today.weekday() == 0:
     yesterday = today - timedelta(days=3)
+    print(f'yesterday- {yesterday}')
 else:
    yesterday = today - timedelta(days=1)
+   print(f'yesterday- {yesterday}')
 query ="after: {} subject: {}".format(yesterday.strftime('%Y/%m/%d'),'PICS 4PL Active Item Adds/Updates')
 filenameList=[];
 #filenameList = ['downloadedAttachments/PICS-4PL-New-&-Updated-Items-LCI-02-17-2026.xlsx','downloadedAttachments/PICS-4PL-New-&-Updated-Items-BISM-02-17-2026.xlsx']
@@ -106,18 +108,16 @@ def createFileAndTab(attachment,filtered_df,sheet_name):
        print("dfToExcel json file did not load properly.")
 
 def sendemail(emailAddresses,attachment):
-    finalBody = distributionList.get('emailbody')
-    subject = f'{storename} Item Add/Change/Delete Report {yesterday} '
-    filename = f'{storename}_{yesterday}.xlsx'
-    emailAddress = distributionList.get('to')
-    allCCEmailAddress = distributionList.get('cc')
-    fromEmail = distributionList.get('from_replyTo')
-    allBCCEmailAddress = ''
-    try:
-       email_params_list = [se.EmailParams(fromEmail, emailAddress, allCCEmailAddress, allBCCEmailAddress, fromEmail, subject, finalBody, [attachment], filename)]
-       se.send_email_with_starttls(email_params_list)
-    except Exception as e:
-        extn.print_colored("Email not sent" + str(e), "red")
+     finalBody = distributionList.get('emailbody')
+     subject = f'{storename} Item Add/Change/Delete Report {yesterday} '
+     filename = f'{storename}_{yesterday}.xlsx'
+     emailAddress = distributionList.get('to')
+     allCCEmailAddress = distributionList.get('cc')
+     fromEmail = distributionList.get('from_replyTo')
+     allBCCEmailAddress = ''
+     email_params_list = [se.EmailParams(fromEmail, emailAddress, allCCEmailAddress, allBCCEmailAddress, fromEmail, subject, finalBody, [attachment], filename)]
+     se.send_email_with_starttls(email_params_list)
+     extn.print_colored("Email not sent" + str(e))
 
 if __name__ == '__main__':
     try:
@@ -141,8 +141,8 @@ if __name__ == '__main__':
           df["Status Date"] = yesterday
           df = df[["Edd Prefix","Status Date","Vendor Name","Item Add or Change","Item Number","Item Name","Mfr Name","Part Number","UOM","Vendor Part Number","Sell Price"]]
           print(df);
-          storesConfig = ut.load_json("resources/extn/stores.json")
-          #storesConfig = ut.load_json("resources/extn/testStores.json")
+          #storesConfig = ut.load_json("resources/extn/stores.json")
+          storesConfig = ut.load_json("resources/extn/testStores.json")
           for store in storesConfig.values():
               for i in range(len(store)):
                   storename = store[i]['name'];
@@ -167,7 +167,7 @@ if __name__ == '__main__':
                                   print(f'{eddPrefix} not found for {storename}');
                               sheet_name = "PICS_Add_Update"
                               if finalFilteredDf.empty: #check if the finalfilteredDF is empty
-                                  print("Edds not found.")
+                                  print("finalFilteredDF was empty for the edd.")
                               else:
                                  createFileAndTab(attachment, finalFilteredDf, sheet_name)
                       sendemail(emailAddresses, attachment)
