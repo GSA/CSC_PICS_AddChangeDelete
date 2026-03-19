@@ -117,7 +117,6 @@ def sendemail(emailAddresses,attachment):
      allBCCEmailAddress = ''
      email_params_list = [se.EmailParams(fromEmail, emailAddress, allCCEmailAddress, allBCCEmailAddress, fromEmail, subject, finalBody, [attachment], filename)]
      se.send_email_with_starttls(email_params_list)
-     extn.print_colored("Email not sent" + str(e))
 
 if __name__ == '__main__':
     try:
