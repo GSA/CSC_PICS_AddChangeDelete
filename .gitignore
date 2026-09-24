@@ -1,3 +1,9 @@
 /auth
 /downloadedAttachments
 /downloadedAttachments
+token.pickle
+*.json
+token.pickle
+resources/extn/dburl.json
+resources/extn/dburl.json
+token.pickle
